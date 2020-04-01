@@ -21,19 +21,41 @@
         <div class="row">
           <div class="col-md-12">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
                 <a class="navbar-brand" href="/">
                 <img src="{% static 'logo1.png' %}" style="width:100px; height:50px">
                 </a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                     <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
                     </li>
                 </ul>
-                </div>  
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <div class="dropdown ml-3">
+                      {% if not user.is_authenticated %}
+                        <button type="button" class="btn btn-light dropdown-toggle mr-2" data-toggle="dropdown"><i class="fas fa-sign-in-alt"></i> Login</button>
+                      {% else %}
+                        <button type="button" class="btn btn-light dropdown-toggle mr-2" data-toggle="dropdown"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                      {%endif%}
+                      <div class="dropdown-menu mr-2">
+                        {% if not user.is_authenticated %}
+                          <a class='dropdown-item shadow-sm' href="{% url 'account:login' %}">Login</a>
+                        {% else %}
+                          <a class='dropdown-item shadow-sm' href='/logout/'>Logout</a>
+                          <a class='dropdown-item shadow-sm'26 href='{{user.get_absolute_url}}'><i class="far fa-user-circle"></i> Profile</a>
+                        {%endif%}
+                      </div>
+                    </div>
+                  </ul>
+
             </nav>
             </div>
         </div>
