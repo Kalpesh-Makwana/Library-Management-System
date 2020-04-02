@@ -1,0 +1,37 @@
+{% extends 'account/base.html'%}
+{%block body%}
+
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5" style="padding-left: 0px; margin:0 auto;">
+        <div class="card card-signin my-5 border shadow-lg bg-white rounded">
+          <div class="card-body">
+            <h5 class="card-title text-center">LOGIN</h5>
+            {% include 'account/message.html' %}
+            <form class="form-signin" id="submitform" method="post">{%csrf_token%}
+                {%for field in form%}
+                    <div class="form-label-group p-2">
+                        <div class="row">
+                            <div class="col-sm-6">
+                               <b> {{ field.label}} :</b>
+                            </div>
+                            <div class="col-sm-6">
+                                {{ field}}
+                            </div>
+                        </div>
+                    </div>
+                {%endfor%}
+                <div class="form-label-group p-4">
+                    <button class="btn btn-secondary btn-block text-uppercase" type="submit">Sign In</button>
+                </div>
+                <div class="col-sm-12 p-3 text-center">
+                    <p>Do You Have Account??</p> 
+                    <a href="{% url 'account:signup' %}"> Create Account </a>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endblock body%}

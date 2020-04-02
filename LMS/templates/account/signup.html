@@ -1,0 +1,42 @@
+{% extends 'account/base.html' %}
+{%block body%}
+{% include 'account/message.html' %}
+
+<main class="my-form">
+    <div class="cotainer">
+        <div class="row justify-content-center m-3">
+            <div class="col-md-8">
+                    <div class="card shadow-lg mb-5 bg-white rounded">
+                        <div class="card-header justify-content-center">
+                            <hr>
+                            <center><h2>Register</h2></center>
+                            <hr>
+                        </div>
+                        <div class="card-body">
+                            <form name="my-form" method="post" id="submitform">{%csrf_token%}
+                                {% for field in form %}
+                                <div class="form-group row">
+                                    <label for="full_name" class="col-md-4 col-form-label text-md-right">{{ field.label}}</label>
+                                    <div class="col-md-6">
+                                        {{ field}}
+                                        
+                                    </div>
+                                </div>
+                                {%endfor%}
+                                    <div class="col-md-12 md-4">
+                                        <center>
+                                        <button type="submit" class="btn btn-secondary">
+                                            Register
+                                        </button>
+                                        </center>
+                                    </div>
+                                </div>
+                            </form>
+                            <p id='error'></p>
+                        </div>       
+                    </div>
+                </div>
+             </div>
+        </div>
+ </main>
+{%endblock body%}

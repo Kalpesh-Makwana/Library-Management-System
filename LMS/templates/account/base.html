@@ -35,37 +35,35 @@
                     <li class="nav-item active">
                     <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                      <a class="nav-link  {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"
+                        href="{{ user.get_absolute_url }}"><i class="fas fa-user"></i> Profile</a>
+                    </li>
+                    {%endif%}
                 </ul>
                 </div>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <div class="dropdown ml-3">
-                      {% if not user.is_authenticated %}
-                        <button type="button" class="btn btn-light dropdown-toggle mr-2" data-toggle="dropdown"><i class="fas fa-sign-in-alt"></i> Login</button>
-                      {% else %}
-                        <button type="button" class="btn btn-light dropdown-toggle mr-2" data-toggle="dropdown"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                      {%endif%}
-                      <div class="dropdown-menu mr-2">
-                        {% if not user.is_authenticated %}
-                          <a class='dropdown-item shadow-sm' href="{% url 'account:login' %}">Login</a>
-                        {% else %}
-                          <a class='dropdown-item shadow-sm' href='/logout/'>Logout</a>
-                          <a class='dropdown-item shadow-sm'26 href='{{user.get_absolute_url}}'><i class="far fa-user-circle"></i> Profile</a>
-                        {%endif%}
-                      </div>
-                    </div>
-                  </ul>
+                  {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                      <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}"
+                        href="{% url 'account:login'%}"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'logout' %}active{% endif %}"
+                        href="{% url 'account:logout'%}"><i class="fas fa-power-off"></i> Logout</a>
+                  </li>
+                  {% endif %}
+                </ul>
 
             </nav>
             </div>
         </div>
     </div>
-<div class="container-fluid">
-    <div class="row">
-      {% block body %}
+    {% block body %}
 
-      {% endblock body %}
-    </div>
-</div>
+    {% endblock body %}
 </body>
 </html>
