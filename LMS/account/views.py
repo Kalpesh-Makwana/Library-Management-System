@@ -55,7 +55,7 @@ class Singup(View):
             return redirect('account:login')
         else:
             form = forms.SingupForm(request.POST)
-            messages.error(request,'Data Is Not Propere !')
+            messages.error(request,' Data is Inappropriate..!')
             return render(request,'account/signup.html',{'form':form})
     
 

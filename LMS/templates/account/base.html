@@ -23,8 +23,10 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
                 <a class="navbar-brand" href="/">
-                <img src="{% static 'logo1.png' %}" style="width:100px; height:50px">
+                  <img src="{% static 'logo1.png' %}" style="width:100px; height:50px"/>
+                  {% if user.is_staff %} <b>Librarian</b> {% elif user.is_authenticated %} <b>Student</b> {% endif %}
                 </a>
+                
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -39,15 +41,19 @@
                       <a class="nav-link  {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"
                         href="{{ user.get_absolute_url }}"><i class="fas fa-user"></i> Profile</a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if request.resolver_match.url_name == 'showissuebook' %}active{% endif %}"
+                        href="{% url 'book:showissuebook' %}"><i class="fas fa-th-list"></i> Issue Books</a>
+                    </li>
                     {%endif%}
                     {% if user.is_staff %}
                       <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'listbook' %}active{% endif %}"
-                          href="{% url 'book:listbook' %}"><i class="fas fa-plus"></i> Books</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'pendingrequest' %}active{% endif %}"
+                          href="{% url 'book:pendingrequest' %}"><i class="fas fa-th-list"></i> Book Requests</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'category' %}active{% endif %}"
-                          href="{% url 'book:category' %}"><i class="fas fa-plus"></i> Category</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'listbook' %}active{% endif %}"
+                          href="{% url 'book:listbook' %}"><i class="fas fa-plus"></i> Books</a>
                       </li>
                     {% endif %}
                 </ul>

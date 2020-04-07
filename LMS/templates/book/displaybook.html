@@ -9,7 +9,7 @@
         <div class="col-xl-12">
            <!-- START card-->
            <div class="card card-default p-3">
-              <div class="card-header"><center><h3>Availabel Books</h3></center> </div>
+              <div class="card-header"><center><h3>Available Books</h3></center> </div>
               <div class="card-body">
                  <!-- START table-responsive-->
                  <div class="table-responsive">
@@ -32,8 +32,8 @@
                                <td>{{book.title}}</td>
                                <td>{{book.author}}</td>
                                <td>{{book.category.name}}</td>
-                               <td>{{book.quantity}}</td>
-                               <td><a class="btn btn-secondary" href="">Issue Book</button></td>
+                               <td><span id="quantity_{{ i.pk }}">{{book.quantity}}</span></td>
+                               <td><button class="btn btn-secondary issue" type='button' id="id_{{ book.pk }}">Issue Book</button></td>
                             </tr>
                             {% endfor %}
                        </tbody>
@@ -46,4 +46,33 @@
 
     </div>
 </section>
+
+
+<script>
+   $(document).on('click','button.issue',function () {
+
+      let result = confirm('Are you want to issue This book')
+      if (result) {
+          id = this.id.split('_').pop()
+          $.ajax({
+              url: "{% url 'book:issuebook' %}",
+              dataType: "json",
+              data: { 'id': id },
+              success: function (data) {
+                  if (data.success == true) {
+                      alert(data.msg)
+                      if(data.deduce){
+                          let val = $('#quantity_' + id).text();
+                          val = $('#quantity_' + id).text(val-1);
+                      }
+                  } else {
+                      alert(data.success)
+                  }
+              },
+          });
+      } else {
+
+      }
+  });
+</script>
 {%endblock body%}

@@ -1,0 +1,82 @@
+{%extends 'account/base.html'%}
+
+{%block body%}
+<section class="section-container">
+    <!-- Page content-->
+    <div class="content-wrapper">
+       {% include 'account/message.html' %}
+       <div class="row">
+        <div class="col-xl-12">
+           <!-- START card-->
+           {% if object_list %}
+           <div class="card card-default p-3">
+                <div class="card-header"><center><h3>Issue Books</h3></center> 
+                </div>
+            
+              <div class="card-body">
+                
+                 <!-- START table-responsive-->
+                 <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                       <thead>
+                          <tr>
+                            <th>No.</th>
+                            {% if user.is_staff %}
+                            <th><b>Issue By</b></th>
+                            <th><b>Contact</b></th>
+                            {% endif %}
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Request Date</th>
+                            <th>Issue Date</th>
+                            <th>Status</th>
+                            {% if title == 'Issue Book'%}
+                            <th>Delete Request</th>
+                            {% endif %}
+                          </tr>
+                       </thead>
+                       <tbody>
+                        {% for i in object_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            {% if user.is_staff %}
+                            <td><b>{{ i.issue_by }}</b></td>
+                            <td><b>{{ i.issue_by.contact }}</b></td>
+                            {% endif %}
+                            <td>{{ i.book.title }}</td>
+                            <td>{{ i.book.author }}</td>
+                            <td>{{ i.request_date }}</td>
+                            <td>{% if i.issue_date %}{{ i.issue_date }} {% else %} -- {% endif %}</td>
+                            <td>
+                                {% if i.status == 0 %}
+                                    <span class="alert alert-success">Pending</span>
+                                {% else %}
+                                    <span class="alert alert-info">Issue</span> 
+                                {% endif %}
+                            </td>
+                            {% if i.status == 0 %}
+                            <td>
+                                <a class="btn btn-danger delete" href="{% url 'book:deleterequest' id=i.id %}"><i class="fas fa-trash"></i> Remove</a>
+                            </td>
+                            {%else%}
+                            <td>--</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                       </tbody>
+                    </table>
+                 </div><!-- END table-responsive-->
+              </div>
+           </div><!-- END card-->
+           {% else %}
+            <div class="col-sm-12">
+                <br>
+                <div class="alert alert-warning text-center" style="width:80%;margin: 0 auto;">
+                    <a href="#" class="alert-link">You have not any {{title}}...!</a>
+                </div> 
+            {% endif %}
+        </div>
+     </div>
+    </div>
+</section>
+{%endblock body%}
