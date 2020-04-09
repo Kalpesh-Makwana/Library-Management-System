@@ -8,13 +8,16 @@ from django.utils                   import timezone
 from django.db.models               import Count,Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator          import Paginator
 
 # Create your views here.
 @method_decorator(login_required,name='dispatch')
 class DisplayBook(View):
     def get(self,request,*args,**kwargs):
         books = models.BookDetail.objects.all()
+        paginator = Paginator(books,5)
+        page_number = request.GET.get('page')
+        books = paginator.get_page(page_number)
         return render(request,'book/displaybook.html',{'books':books})
 
 @method_decorator(login_required,name='dispatch') 
@@ -46,6 +49,7 @@ class ShowIssueBook(ListView):
     model           =   models.Transaction
     template_name   =   'book/showissuebook.html'
     extra_context   =   {'title':'Issue Book'}
+    paginate_by     =   6
 
     def get_queryset(self):
         if self.request.user.is_staff:
@@ -94,6 +98,7 @@ class Listbook(ListView):
     model               = models.BookDetail
     context_object_name = 'books'
     template_name       = 'book/listbook.html'
+    paginate_by         =  5
 
 @method_decorator(login_required,name='dispatch')
 class UpdateBook(UpdateView):
