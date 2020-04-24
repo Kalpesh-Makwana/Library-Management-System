@@ -1,0 +1,80 @@
+{%extends 'account/base.html'%}
+
+{%block body%}
+<section class="section-container">
+    <!-- Page content-->
+    <div class="content-wrapper">
+       {% include 'account/message.html' %}
+       <div class="row">
+        <div class="col-xl-12">
+           <!-- START card-->
+           <div class="card card-default p-3">
+              <div class="card-header"><center><h3>Available Books</h3></center> </div>
+              <div class="card-body">
+                 <!-- START table-responsive-->
+                 <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                       <thead>
+                          <tr>
+                             <th>NO</th>
+                             <th>book Name</th>
+                             <th>Author</th>
+                             <th>Category</th>
+                             <th>Quantity</th>
+                             <th>Action</th>
+
+                          </tr>
+                       </thead>
+                       <tbody>
+                           {% for book in books %}
+                           <tr>
+                               <td>{{book.id}}</td>
+                               <td>{{book.title}}</td>
+                               <td>{{book.author}}</td>
+                               <td>{{book.category.name}}</td>
+                               <td><span id="quantity_{{ i.pk }}">{{book.quantity}}</span></td>
+                               <td><button class="btn btn-secondary issue" type='button' id="id_{{ book.pk }}">Issue Book</button></td>
+                            </tr>
+                            {% endfor %}
+                       </tbody>
+                    </table>
+
+                 </div><!-- END table-responsive-->
+              </div>
+              {%include 'pagination.html'%}
+           </div><!-- END card-->
+        </div>
+     </div>
+
+    </div>
+</section>
+
+
+<script>
+   $(document).on('click','button.issue',function () {
+
+      let result = confirm('Are you want to issue This book')
+      if (result) {
+          id = this.id.split('_').pop()
+          $.ajax({
+              url: "{% url 'book:issuebook' %}",
+              dataType: "json",
+              data: { 'id': id },
+              success: function (data) {
+                  if (data.success == true) {
+                      alert(data.msg)
+                      if(data.deduce){
+                          let val = $('#quantity_' + id).text();
+                          val = $('#quantity_' + id).text(val-1);
+                      }
+                  } else {
+                      alert(data.success)
+                  }
+              },
+          });
+      } else {
+
+      }
+  });
+</script>
+{%endblock body%}

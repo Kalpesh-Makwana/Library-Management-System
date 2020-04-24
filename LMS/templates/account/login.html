@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LMS</title>
+
+    <link rel="stylesheet" href="{% static 'css/all.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/validation.js' %}"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5" style="padding-left: 0px; margin:0 auto;">
+        <div class="card card-signin my-5 border shadow-lg bg-white rounded">
+          <div class="card-body">
+            <h5 class="card-title text-center">LOGIN</h5>
+            {% include 'account/message.html' %}
+            <form class="form-signin" id="submitform" method="post">{%csrf_token%}
+                {%for field in form%}
+                    <div class="form-label-group p-2">
+                        <div class="row">
+                            <div class="col-sm-6">
+                               <b> {{ field.label}} :</b>
+                            </div>
+                            <div class="col-sm-6">
+                                {{ field}}
+                            </div>
+                        </div>
+                    </div>
+                {%endfor%}
+                <div class="form-label-group p-4">
+                    <button class="btn btn-secondary btn-block text-uppercase" type="submit">Sign In</button>
+                </div>
+                <div class="col-sm-12 p-3 text-center">
+                    <p>Do You Have Account??</p> 
+                    <a href="{% url 'account:signup' %}"> Create Account </a>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

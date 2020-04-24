@@ -1,0 +1,26 @@
+{% extends 'account/base.html' %}
+{% block body%}
+<hr>
+<h1>Profile</h1>
+<hr>
+<table class="table table-hover" style="width:70%;">
+        <tr>
+            <td>First Name</td>
+            <td>{{ object.first_name|title }}</td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td>{{ object.last_name|title }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ object.email }}</td>
+        </tr>
+        <tr>
+            <td>Contact</td>
+            <td style="font-weight:bold;">{{ object.contact}}</td>
+        </tr>              
+</table>
+
+</div>
+{%endblock%}

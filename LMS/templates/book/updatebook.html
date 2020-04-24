@@ -1,0 +1,41 @@
+{% extends 'account/base.html' %}
+{% block body %}
+<div class="col-md-12">
+<center>
+<hr>
+<h3>{{view}} Books</h3>
+<hr>
+<table>
+<form method="POST">
+    {% csrf_token %}
+       
+        {% for field in form %}
+            <tr>
+                <td>
+                    {{ field.label}}
+                </td>
+                <td>
+                    {{ field }}
+                </td>
+                <td>
+                    {{ field.errors }}
+                </td>
+            </tr>
+        {% endfor%}
+    <tr>
+        <td colspan="3">
+            <center><button type="submit" class="btn btn-primary">{{view}}</button></center>
+        </td>        
+    </tr>
+</form>
+
+</center>
+</div>
+<script>
+    document.getElementById("id_title").classList.add("form-control");
+    document.getElementById("id_author").classList.add("form-control");
+    document.getElementById("id_quantity").classList.add("form-control");
+    document.getElementById("id_category").classList.add("form-control");
+
+</script>
+{% endblock body %}
